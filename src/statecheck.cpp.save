@@ -1,0 +1,15 @@
+#include "statecheck.h"
+#include <iostream>
+
+void stateCheck() {
+			for (int id = 0; id < AoS; id++) {
+			if (timerArray[id][1] + timerArray[id][0] <= getTime()){
+				dataLoop(id);
+				timerArray[id][1] = getTime();
+				cout << "Loaded " << id << "." << endl; 
+				}
+			}
+}
+
+
+

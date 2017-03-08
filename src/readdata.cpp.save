@@ -1,0 +1,132 @@
+#include "readdata.h"
+#include "globals.h"
+#include <modbus/modbus.h>
+#include <iostream>
+#include <unistd.h>
+#include <mosquitto.h>
+#include <mosquittopp.h>
+#include <cstring>
+#include <string>
+#include <stdio.h>
+
+void on_message(struct mosquitto *client, void *obj, const struct mosquitto_message *message){
+	//std::string s(message->payload, message->payload + sizeof(message->payload));
+	if(message->payloadlen){
+		printf("%s %s\n", message->topic, message->payload);
+	}
+	else{
+		printf("%s (null)\n", message->topic);
+	}
+	fflush(stdout);
+	mosquitto_disconnect(client);
+}
+
+
+float readData(int id){
+
+	float value = 0;
+
+	switch (busArray[id][2]) {
+	case 0:{
+		int slaveAddr = busArray[id][0];
+		int holdingReg = busArray[id][1];
+		std::string deviceName = attrArray[id][4];
+		uint16_t tab_reg[64];
+
+		//Create RTU context with parameters,
+		// device name, baud rate, parity bit, data bits, stop bits)
+		const char *mycharp = deviceName.c_str();
+
+		modbus_t *ctx = modbus_new_rtu(mycharp, 9600, 'N', 8, 1);
+		if (!ctx) {
+    			fprintf(stderr, "Failed to create the context: %s\n", modbus_strerror(errno));
+    			break;
+		}
+		if (modbus_connect(ctx) == -1) {
+ 			fprintf(stderr, "Unable to connect: %s\n", modbus_strerror(errno));
+			modbus_free(ctx);
+    			break;
+		}
+		modbus_flush(ctx);
+		modbus_set_debug(ctx, TRUE);
+		modbus_rtu_set_serial_mode(ctx, MODBUS_RTU_RS485);
+
+		modbus_set_slave(ctx, slaveAddr);
+		int num = modbus_read_registers(ctx, holdingReg, 2, tab_reg);
+
+		if (num == -1){
+			fprintf(stderr, "Failed to read: %s\n", modbus_strerror(errno));
+		}
+
+		for (int i=0; i < num; i++) {
+   			printf("reg[%d]=%d (0x%X)\n", i, tab_reg[i], tab_reg[i]);
+		}
+
+		modbus_close(ctx);
+		modbus_free(ctx);
+		}
+		break;
+	case 1:	{
+
+		}
+
+		break;
+	case 2:	{
+		int slaveAddr = busArray[id][0];
+                int holdingReg = busArray[id][1];
+                std::string deviceName = attrArray[id][4];
+                uint16_t tab_reg[64];
+
+		modbus_t *ctx = modbus_new_tcp("192.168.112.56", 502);
+		modbus_set_debug(ctx, TRUE);
+		if (ctx == NULL) {
+			fprintf(stderr, "Unable to allocate libmodbus context\n");
+			return -1;
+		}
+
+		if (modbus_connect(ctx) == -1) {
+			fprintf(stderr, "Connection failed: %s\n", modbus_strerror(errno));
+			modbus_free(ctx);
+			return -1;
+		}
+
+		modbus_set_slave(ctx, slaveAddr);
+                int num = modbus_read_registers(ctx, holdingReg, 1, tab_reg);
+
+                if (num == -1){
+                        fprintf(stderr, "Failed to read: %s\n", modbus_strerror(errno));
+                }
+
+                for (int i=0; i < num; i++) {
+                        printf("reg[%d]=%d (0x%X)\n", i, tab_reg[i], tab_reg[i]);
+                }
+
+
+		modbus_free(ctx);
+		}
+
+		break;
+	case 3:{
+		char sid [100];
+		sprintf(sid,"%d", id);
+		struct mosquitto *mqttclient;
+
+		mqttclient = mosquitto_new("rpi", true, NULL);
+		mosquitto_message_callback_set(mqttclient, on_message);
+
+		mosquitto_connect(mqttclient, "127.0.0.1", 1883, 120);
+		mosquitto_subscribe(mqttclient, NULL, "test2", 0);
+		mosquitto_publish(mqttclient, NULL, "test", strlen(sid), sid, 0, false);
+		std::cout << " start mqtt loop " << std::endl;
+		mosquitto_loop_forever(mqttclient, -1, 1);
+		}
+		break;
+
+	default:{
+
+		}
+		break;
+	}
+	return value;
+}
+
