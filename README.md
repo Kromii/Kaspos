@@ -5,18 +5,20 @@ Ohjelma toimii konfiguroitavana tilakoneena, joka yhdistää erilaisia sensoreit
 
 Ohjelma on suunniteltu laajennettavaksi esimerkiksi tukemaan useampaa viestintäprotokollaa ja pilvipalvelua. Projektin vaatimuksena on tuki projektin puitteissa rakennetulle Arduino - MQTT viestiprotokollalle ja Wapicen IoT-Ticket pilvipalvelualustalle.
 
+Tämä ohjelma on opinnäytetyöni ja lisensoitu: The MIT License (MIT) Copyright (c) 2017 Heikki Alho
 
 
 ### Järjestelmävaatimukset
 
 Ohjelma on suunniteltu Linux -käyttöjärjestelmälle, erityisesti Raspberry Pi:n Rasbian -alustalle. Projekti käyttää CMake:a ohjelman rakentamiseen. 
 Ohjelma ei sisällä seuraavia kirjastoja, joten ne pitää asentaa ennen ohjelman rakentamista esim. apt-get pakettimanagerin kanssa:
-libconfig++
-libmosquitto
-libmosquittopp
-pkg-config
-libmodbus
-libcurl
+- libconfig++
+- libmosquitto
+- libmosquittopp
+- pkg-config
+- libmodbus
+- libcurl
+
 
 IOT_API kirjasto on lisensoitu: The MIT License (MIT) Copyright (c) 2015 Wapice Ltd. (https://github.com/IoT-Ticket/) Projektissa käytetään IoT-LinuxCppClient -kirjastoa ja se rakennetaan projektin rakentamisen yhteydessä.
 
