@@ -1,6 +1,6 @@
 # Kaspos
 
-Tämä ohjelma on osa Tampereen ammattikorkeakoulun talotekniikan koulutuksen IoT-projektia, jossa rakennetaan olosuhdelaboratoriota ilmanlaadun tarkkailuun erilaisissa olosuhteissa. 
+Tämä ohjelma on osa Tampereen ammattikorkeakoulun talotekniikan koulutuksen IoT-projektia, jossa rakennetaan olosuhdelaboratoriota ilmanlaadun tarkkailuun erilaisissa olosuhteissa. (https://github.com/TAMK-IoT/Talotekniikka-IoT)
 Ohjelma toimii konfiguroitavana tilakoneena, joka yhdistää erilaisia sensoreita useilla viestintätavoilla yhden laitteen hallintaan ja lähettää mitatun tiedon pilvipalveluun.
 
 Ohjelma on suunniteltu laajennettavaksi esimerkiksi tukemaan useampaa viestintäprotokollaa ja pilvipalvelua. Projektin vaatimuksena on tuki projektin puitteissa rakennetulle Arduino - MQTT viestiprotokollalle ja Wapicen IoT-Ticket pilvipalvelualustalle.
