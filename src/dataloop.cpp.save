@@ -1,8 +1,0 @@
- h #include "dataloop.h"
-
-void dataLoop(int id){
-
-	//sendData(id, readData());
-	
-	return;
-}
