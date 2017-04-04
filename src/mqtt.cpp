@@ -62,7 +62,9 @@ void on_message(struct mosquitto *client, void *obj, const struct mosquitto_mess
 			std::cout << "Invalid message received." << std::endl;
 			return;
 		}
-
+		if (testmode == 1){
+			std::cout << "Received valid response, id = " << id << "value = " << value << std::endl;
+		}
 
 		value = value * modArray[id][0];
 		mqttcounter = mqttcounter - 1;
@@ -103,38 +105,14 @@ void mqttsender(){
 			int msgform = busArray[id][3];
 			//Message formate 1 start;
 			if (msgform == 1){
-
-				if (msgform < 10){
-					_msg += "0";
-				}
-				_msg += std::to_string(msgform);
-
-				if (id > 9 && id < 100){			//sensor MAIN ID number. 3 digits
-					_msg += "0";
-				}
-
-				if (id < 10){
-					_msg += "00";
-				}
-
-				_msg += std::to_string(id);
-
-				if (busArray[id][0] < 10){			// Arduino ID number from config. 2 digit
-					_msg += std::to_string(0);
-				}
-
-				_msg += std::to_string(busArray[id][0]);
-
-				/*if (busArray[id][1] > 9 && busArray[id][1] < 100){
-					_msg += "0";
-				}*/
-
-				if (busArray[id][1] < 10){			// Arduino sensor ID number from config, 2digit
-					_msg += "0";
-				}
-
-				_msg += std::to_string(busArray[id][1]);
-
+				//msgform, 2 digits
+				_msg += std::string(2 - std::to_string(msgform).length(), '0') + std::to_string(msgform);
+				//sensor MAIN ID number. 3 digits
+				_msg += std::string (3 - std::to_string(id).length(), '0') + std::to_string (id);
+				// Arduino ID number from config. 2 digit
+				_msg += std::string (2 - std::to_string(busArray[id][0]).length(), '0') + std::to_string (busArray[id][0]);
+				// Arduino sensor ID number from config, 2digit
+				_msg += std::string (2 - std::to_string(busArray[id][1]).length(), '0') + std::to_string (busArray[id][1]);
 			} // message format 1 end
 
 			//message format 2 start
@@ -143,9 +121,9 @@ void mqttsender(){
 			}
 			strcpy(msg, _msg.c_str());
 
-			mosquitto_publish(sender, NULL, "kysely", strlen(msg),msg, 0, false);
+			mosquitto_publish(sender, NULL, "kysely", strlen(msg), msg, 0, false); 
 			if (testmode == 1){
-				std::cout << "MQTT request sent, " << mqttcounter << std::endl;
+				std::cout << "MQTT request sent, id: " << id << "request - response = "<< mqttcounter << std::endl;
 			}
 			mqttcounter = mqttcounter + 1; // request-reply counter ++
 			mosquitto_loop(sender, -1, 1);
