@@ -5,6 +5,8 @@ Ohjelma toimii konfiguroitavana tilakoneena, joka yhdistää erilaisia sensoreit
 
 Ohjelma on suunniteltu laajennettavaksi esimerkiksi tukemaan useampaa viestintäprotokollaa ja pilvipalvelua. Projektin vaatimuksena on tuki projektin puitteissa rakennetulle Arduino - MQTT viestiprotokollalle ja Wapicen IoT-Ticket pilvipalvelualustalle.
 
+Ohjelman aktiviteettikaavio http://imgur.com/DJS2Mkn
+
 Tämä ohjelma on opinnäytetyöni ja lisensoitu: The MIT License (MIT) Copyright (c) 2017 Heikki Alho
 
 
@@ -59,10 +61,3 @@ IoT-Ticketin konfigurointi tapahtuu lisäämällä käyttäjätiedot konfiguroin
 # Jatkokehitys
 
 Jos satut löytämään tämän ohjelman ja hyödyntämään sitä omissa projekteissasi, toivon että kertoisit aikaansaadoksistasi myös minulle.
-
-    
-
-
-
-
-
