@@ -12,13 +12,13 @@ Tämä ohjelma on opinnäytetyöni ja lisensoitu: The MIT License (MIT) Copyrigh
 
 ### Järjestelmävaatimukset
 
-Ohjelma on suunniteltu Linux -käyttöjärjestelmälle, erityisesti Raspberry Pi:n Rasbian -alustalle. Projekti käyttää CMake:a ohjelman rakentamiseen. 
+Ohjelma on suunniteltu Linux -käyttöjärjestelmälle, erityisesti Raspberry Pi:n Rasbian -alustalle. Projekti käyttää CMake:a ohjelman rakentamiseen. (apt-get install cmake)
 Ohjelma ei sisällä seuraavia kirjastoja, joten ne pitää asentaa ennen ohjelman rakentamista esim. apt-get pakettimanagerin kanssa:
 - libconfig++
-- libmosquitto
-- libmosquittopp
-- pkg-config
-- libmodbus
+- libmosquitto-dev
+- libmosquittopp-dev
+- libcurl4-openssl-dev
+- libmodbus-dev
 - libcurl
 
 
