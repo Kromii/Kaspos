@@ -19,7 +19,6 @@ Ohjelma ei sisällä seuraavia kirjastoja, joten ne pitää asentaa ennen ohjelm
 - libmosquittopp-dev
 - libcurl4-openssl-dev
 - libmodbus-dev
-- libcurl
 
 
 IOT_API kirjasto on lisensoitu: The MIT License (MIT) Copyright (c) 2015 Wapice Ltd. (https://github.com/IoT-Ticket/) Projektissa käytetään IoT-LinuxCppClient -kirjastoa ja se rakennetaan projektin rakentamisen yhteydessä.
